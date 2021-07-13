@@ -6,6 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+/**
+ * This class contains the elements and actions that can be done on the Department Delete Page
+ */
 public class DeleteDepartmentPage {
     private WebDriver driver;
 
