@@ -11,10 +11,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class contains the elements and actions that can be done on the Employees Create Page
+ */
 public class EmployeeCreatePage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private static String PAGE_URL="http://magenicautomation.azurewebsites.net/Employees/Create";
+    private static final String PAGE_URL = "http://magenicautomation.azurewebsites.net/Employees/Create";
 
     @FindBy(id = "EmpFirstName")
     private WebElement firstNameInputField;
@@ -38,9 +39,6 @@ public class EmployeeCreatePage {
     private WebElement createButton;
 
     public EmployeeCreatePage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, 10);
-
         //Initialize Elements
         PageFactory.initElements(driver, this);
     }

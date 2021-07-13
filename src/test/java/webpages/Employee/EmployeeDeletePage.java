@@ -8,8 +8,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * This class contains the elements and actions that can be done on the Employees Delete Page
+ */
 public class EmployeeDeletePage {
-    private WebDriver driver;
     private WebDriverWait wait;
     private static String BASE_PAGE_URL="http://magenicautomation.azurewebsites.net/Employees/Delete/";
     private String PAGE_URL;
@@ -18,7 +20,6 @@ public class EmployeeDeletePage {
     private WebElement deleteButton;
 
     public EmployeeDeletePage(WebDriver driver, Employee employeeDetails) {
-        this.driver = driver;
         this.PAGE_URL = EmployeeDeletePage.BASE_PAGE_URL + employeeDetails.getID();
         wait = new WebDriverWait(driver, 10);
 
