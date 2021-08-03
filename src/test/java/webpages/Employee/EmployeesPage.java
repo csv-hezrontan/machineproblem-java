@@ -12,9 +12,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class contains the elements and actions that can be done on the Employees Page
+ */
 public class EmployeesPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
     public static String PAGE_URL="http://magenicautomation.azurewebsites.net/Employees";
 
     @FindBy(linkText = "Create New")
@@ -33,6 +36,7 @@ public class EmployeesPage {
         this.driver = driver;
         wait = new WebDriverWait(driver, 10);
         driver.get(PAGE_URL);
+
         //Initialise Elements
         PageFactory.initElements(driver, this);
     }
@@ -42,6 +46,13 @@ public class EmployeesPage {
      */
     public void navigate() {
         driver.get(EmployeesPage.PAGE_URL);
+    }
+
+    /**
+     * Checks if the Employees Page is active through the URI
+     */
+    public boolean isPageActive() {
+        return driver.getCurrentUrl().equals(PAGE_URL);
     }
 
     /**
@@ -99,7 +110,7 @@ public class EmployeesPage {
     /**
      * Verify the Employee exist in data table
      * @param employeeDetails Employee details storage to verify
-     * @return true/false: employee exist/not in table
+     * @return true/false: employee exists/does not exists in table
      */
     public boolean doesEmployeeExist(Employee employeeDetails){
         boolean exists = false;
@@ -158,12 +169,19 @@ public class EmployeesPage {
 
 
     // --- Web elements
+    /**
+     * Retrieves the table row (tr) element in the table Employees table of the Employee details provided
+     * @param employeeDetails Employee details which is contained by the table row
+     */
     private WebElement employeeTableRowElement(Employee employeeDetails) {
         return this.tableBodyRows.stream().filter(tr ->
                 tr.getText().contains(employeeDetails.getFirstName() + " " + employeeDetails.getLastName()))
                 .findFirst().orElse(null);
     }
 
+    /**
+     * Retrieves all of the table row (tr) elements in the Employees table
+     */
     private List<WebElement> employeeRows() {
         return wait.until(
                 ExpectedConditions.visibilityOfNestedElementsLocatedBy(tableBody, By.cssSelector("tr")));
