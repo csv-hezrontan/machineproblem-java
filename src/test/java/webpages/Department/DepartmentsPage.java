@@ -1,5 +1,6 @@
 package webpages.Department;
 
+import models.Department;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -12,15 +13,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
+/**
+ * This class contains the elements and actions that can be done on the Departments Page
+ */
 public class DepartmentsPage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     //Page URL
-    private static String PAGE_URL="http://magenicautomation.azurewebsites.net/Departments";
+    public static final String PAGE_URL = "http://magenicautomation.azurewebsites.net/Departments";
 
     //Locators
 
-    //Create New Department
+    //Create New Department Button
     @FindBy(how = How.LINK_TEXT, using = "Create New")
     private WebElement createNewDepartmentLink;
 
@@ -28,21 +32,41 @@ public class DepartmentsPage {
     public DepartmentsPage(WebDriver driver){
         this.driver=driver;
         driver.get(PAGE_URL);
+
         //Initialise Elements
         PageFactory.initElements(driver, this);
     }
 
+    /**
+     * Checks if the Department page is active by verifying the URI
+     * @return true/false If the create Department page is opened or not
+     */
+    public boolean isPageOpened(){
+        return driver.getCurrentUrl().equals(PAGE_URL);
+    }
+
+    /**
+     * Clicks on the new Department Link
+     */
     public void clickOnCreateNewDepartmentLink(){
         createNewDepartmentLink.click();
     }
 
-    public boolean checkIfDepartmentExists(String departmentName) {
+    /**
+     * Checks if the provided Department details exists in the table
+     * @param departmentDetails Department details to check
+     */
+    public boolean checkIfDepartmentExists(Department departmentDetails) {
         List<WebElement> departments = driver.findElements(new By.ByCssSelector("tr > td:first-child"));
 
-        return departments.stream().anyMatch(department -> department.getText().equals(departmentName));
+        return departments.stream().anyMatch(department -> department.getText().equals(departmentDetails.getName()));
     }
 
-    public void deleteDepartment(String departmentName) {
+    /**
+     * Deletes the Department provided
+     * @param departmentDetails Department details to delete
+     */
+    public void deleteDepartment(Department departmentDetails) {
         List<WebElement> departments = driver.findElements(new By.ByCssSelector("tbody > tr"));
         List<WebElement> rowObjects;
         for (WebElement department : departments) {
@@ -50,7 +74,7 @@ public class DepartmentsPage {
             if (rowObjects.size() == 0)
                 continue;
 
-            if (rowObjects.get(0).getText().equals(departmentName)) {
+            if (rowObjects.get(0).getText().equals(departmentDetails.getName())) {
                 department.findElement(new By.ByCssSelector("a[href*='Delete']")).click();
                 break;
             }
